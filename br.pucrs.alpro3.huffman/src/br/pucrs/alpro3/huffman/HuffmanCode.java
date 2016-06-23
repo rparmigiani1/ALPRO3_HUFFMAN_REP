@@ -42,24 +42,19 @@ public class HuffmanCode {
 		}
 		if (node.left != null) {
 			System.out.println(String.format("node%d [label=\"%d\"];", node.id, node.weight));
-			//System.out.println(String.format("%d -> %d [label=\"0\"];", node.id, node.left.id));
 			DotNodes(node.left);
 		}
 		if (node.right != null) {
-			//System.out.println(String.format("node%d [label=\"%d\"];", node.id, node.weight));
-			//System.out.println(String.format("%s -> %s [label=\"1\"];", node.id, node.right.id));
 			DotNodes(node.right);
 		}
 	}
 	
 	private static void DotConnections(Tree.Node node) {
 		if (node.left != null) {
-			//System.out.println(String.format("node%d [label=\"%d\"];", node.id, node.weight));
 			System.out.println(String.format("node%d -> node%d", node.id, node.left.id));
 			DotConnections(node.left);
 		}
 		if (node.right != null) {
-			//System.out.println(String.format("node%d [label=\"%d\"];", node.id, node.weight));
 			System.out.println(String.format("node%d -> node%d", node.id, node.right.id));
 			DotConnections(node.right);
 		}
