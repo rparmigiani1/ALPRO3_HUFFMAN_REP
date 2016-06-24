@@ -1,0 +1,13 @@
+
+digraph g {
+node4 [label="7"];
+node0 [label="a,3"];
+node3 [label="4"];
+node1 [label="r,2"];
+node2 [label="s,2"];
+node4 -> node0
+node4 -> node3
+node3 -> node1
+node3 -> node2
+}
+

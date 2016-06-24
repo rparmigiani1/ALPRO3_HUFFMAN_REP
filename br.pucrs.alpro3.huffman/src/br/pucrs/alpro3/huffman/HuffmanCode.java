@@ -1,13 +1,19 @@
 package br.pucrs.alpro3.huffman;
 
+import java.io.*;
 import java.util.PriorityQueue;
 import java.util.Scanner;
 
 public class HuffmanCode {
 	private static Scanner input;
 	private static int IdCounter = 0;
+	private static PrintWriter pw;
 
 	public static void main(String[] args) {
+		try {
+			pw = new PrintWriter("out.txt");
+		} catch (IOException e) {}
+		
 		input = new Scanner(System.in);
 		System.out.print("Enter a text: ");
 		String text = input.nextLine();
@@ -25,23 +31,25 @@ public class HuffmanCode {
 		
 		Tree.Node n = tree.root;
 		generateHuffmanTreeDOT(n);
+		System.out.println("\nEncoded Text: " + encode(n));
 	}
 	
 	private static void generateHuffmanTreeDOT(Tree.Node root) {
 
-		System.out.println("\ndigraph g {");
+		pw.println("\ndigraph g {");
 		DotNodes(root);
 		DotConnections(root);
-		System.out.println("}\n");
+		pw.println("}\n");
+		pw.close();
 	}
 
 	private static void DotNodes(Tree.Node node) {
 		if (node.element != Character.MIN_VALUE) {
-			System.out.println(String.format("node%d [label=\"%s,%d\"];", node.id, node.element, node.weight));
+			pw.println(String.format("node%d [label=\"%s,%d\"];", node.id, node.element, node.weight));
 			return;
 		}
 		if (node.left != null) {
-			System.out.println(String.format("node%d [label=\"%d\"];", node.id, node.weight));
+			pw.println(String.format("node%d [label=\"%d\"];", node.id, node.weight));
 			DotNodes(node.left);
 		}
 		if (node.right != null) {
@@ -51,14 +59,27 @@ public class HuffmanCode {
 	
 	private static void DotConnections(Tree.Node node) {
 		if (node.left != null) {
-			System.out.println(String.format("node%d -> node%d", node.id, node.left.id));
+			pw.println(String.format("node%d -> node%d", node.id, node.left.id));
 			DotConnections(node.left);
 		}
 		if (node.right != null) {
-			System.out.println(String.format("node%d -> node%d", node.id, node.right.id));
+			pw.println(String.format("node%d -> node%d", node.id, node.right.id));
 			DotConnections(node.right);
 		}
 	}
+	
+    public static String encode(Tree.Node root){
+    	 	
+    	String encodeText = "";
+		String[] encode = getCode(root);
+		for (int i = 0; i < encode.length; i++) {
+			
+			if ((encode[i] != null)) {
+				encodeText += encode[i];
+			}				
+		}
+    	return encodeText;
+    }
 
 	/**
 	 * Get Huffman codes for the characters This method is called once after a
